@@ -11,7 +11,8 @@ var express     = require("express"),
     var io = require('socket.io')(http);
 //requiring routes
 var commentRoutes    = require("./routes/comments"),
-    meetupRoutes = require("./routes/campgrounds"),
+    feedRoutes = require("./routes/feeds"),
+    meetupRoutes = require("./routes/meetups"),
     indexRoutes      = require("./routes/index"),
     messagesRoutes      = require("./routes/messages")
     mongoose.Promise = global.Promise;
@@ -51,6 +52,8 @@ app.use(function(req, res, next){
 
 app.use("/", indexRoutes);
 app.use("/meetups", meetupRoutes);
+// app.use("/feeds",feedRoutes);
+// app.use("/feeds/:id/comments", feedRoutes);
 app.use("/meetups/:id/comments", commentRoutes);
 app.use("/messages", messagesRoutes);
 io.on('connection', () =>{

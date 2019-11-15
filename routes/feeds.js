@@ -1,17 +1,17 @@
 var express = require("express");
 var router  = express.Router();
-var Meetup = require("../models/meetup");
+var Feed = require("../models/feed");
 var middleware = require("../middleware");
 
 
 //INDEX - show all campgrounds
 router.get("/", function(req, res){
     // Get all campgrounds from DB
-    Meetup.find({}, function(err, allMeetups){
+    Feed.find({}, function(err, allFeed){
        if(err){
            console.log(err);
        } else {
-          res.render("meetups/index",{meetups:allMeetups});
+          res.render("feeds/index",{feeds:allFeed});
        }
     });
 });
@@ -26,64 +26,64 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         id: req.user._id,
         username: req.user.username
     }
-    var newMeetup = {name: name, image: image, description: desc, author:author}
+    var newFeed = {name: name, image: image, description: desc, author:author}
     // Create a new campground and save to DB
-    Meetup.create(newMeetup, function(err, newlyCreated){
+    Feed.create(newFeed, function(err, newlyCreated){
         if(err){
             console.log(err);
         } else 
             //redirect back to campgrounds page
             console.log(newlyCreated);
-            res.redirect("/meetups");
+            res.redirect("/feeds");
         })
 });
 
 //NEW - show form to create new campground
 router.get("/new", middleware.isLoggedIn, function(req, res){
-   res.render("meetups/new"); 
+   res.render("feeds/new"); 
 });
 
 // SHOW - shows more info about one campground
 router.get("/:id", function(req, res){
     //find the campground with provided ID
-    Meetup.findById(req.params.id).populate("comments").exec(function(err, foundMeetup){
+    Feed.findById(req.params.id).populate("comments").exec(function(err, foundfeed){
         if(err){
             console.log(err);
         } else {
-            console.log(foundMeetup)
+            console.log(foundfeed)
             //render show template with that campground
-            res.render("meetups/show", {meetup: foundMeetup});
+            res.render("feeds/show", {feed: foundfeed});
         }
     });
 });
 
 // EDIT CAMPGROUND ROUTE
-router.get("/:id/edit", middleware.checkMeetupOwnership, function(req, res){
-    Meetup.findById(req.params.id, function(err, foundMeetup){
-        res.render("meetups/edit", {meetup: foundMeetup});
+router.get("/:id/edit", middleware.checkFeedOwnership, function(req, res){
+    Feed.findById(req.params.id, function(err, foundfeed){
+        res.render("feeds/edit", {feed: foundfeed});
     });
 });
 
 // UPDATE CAMPGROUND ROUTE
-router.put("/:id",middleware.checkMeetupOwnership, function(req, res){
+router.put("/:id",middleware.checkFeedOwnership, function(req, res){
     // find and update the correct campground
-    Meetup.findByIdAndUpdate(req.params.id, req.body.meetup, function(err, updatedMeetup){
+    Feed.findByIdAndUpdate(req.params.id, req.body.feed, function(err, updatedMeetup){
        if(err){
-           res.redirect("/meetups");
+           res.redirect("/feeds");
        } else {
            //redirect somewhere(show page)
-           res.redirect("/meetups/" + req.params.id);
+           res.redirect("/feeds/" + req.params.id);
        }
     });
 });
 
 // DESTROY CAMPGROUND ROUTE
-router.delete("/:id",middleware.checkMeetupOwnership, function(req, res){
-   Meetup.findByIdAndRemove(req.params.id, function(err){
+router.delete("/:id",middleware.checkFeedOwnership, function(req, res){
+   Feed.findByIdAndRemove(req.params.id, function(err){
       if(err){
-          res.redirect("/meetups");
+          res.redirect("/feeds");
       } else {
-          res.redirect("/meetups");
+          res.redirect("/feeds");
       }
    });
 });

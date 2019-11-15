@@ -2,22 +2,22 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-           
-            </div>
+            <p class="lead">YelpCamp</p>
+            
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
-                <img class="img-responsive" src="<%= meetup.image %>">
+                <img class="img-responsive" src="<%= feed.image %>">
                 <div class="caption-full">
                     <!-- <h4 class="pull-right">$9.00/night</h4> -->
-                    <h4><a><%=meetup.name%></a></h4>
-                    <p><%= meetup.description %></p>
+                    <h4><a><%=feed.name%></a></h4>
+                    <p><%= feed.description %></p>
                     <p>
-                        <em>Submitted By <%= meetup.author.username %></emmeetup
+                        <em>Submitted By <%= feed.author.username %></em>
                     </p>
-                    <% if(currentUser && meetup.author.id.equals(currentUser._id)){ %>
-                        <a class="btn btn-xs btn-warning" href="/meetups/<%= meetup._id %>/edit">Edit</a>
-                        <form id="delete-form" action="/meetups/<%= meetup._id %>?_method=DELETE" method="POST">
+                    <% if(currentUser && feed.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-xs btn-warning" href="/campgrounds/<%= feed._id %>/edit">Edit</a>
+                        <form id="delete-form" action="/feeds/<%= feed._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
                     <% }%>
@@ -25,10 +25,10 @@
             </div>
             <div class="well">
                 <div class="text-right">
-                    <a class="btn btn-success" href="/meetups/<%= meetup._id %>/comments/new">Add New Comment</a>
+                    <a class="btn btn-success" href="/feeds/<%= feed._id %>/comments/new">Add New Comment</a>
                 </div>
                 <hr>
-                <% meetup.comments.forEach(function(comment){ %>
+                <% feed.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12">
                             <strong><%= comment.author.username %></strong>
@@ -38,8 +38,8 @@
                             </p>
                         <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
                             <a class="btn btn-xs btn-warning" 
-                               href="/meetups/<%=meetup._id %>/comments/<%=comment._id %>/edit">Edit</a>
-                            <form id="delete-form" action="/meetups/<%=meetup._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                               href="/feeds/<%=feed._id %>/comments/<%=comment._id %>/edit">Edit</a>
+                            <form id="delete-form" action="/feeds/<%=feed._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
                                 <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                             </form>
                         <% } %>
