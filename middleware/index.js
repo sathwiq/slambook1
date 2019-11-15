@@ -1,17 +1,18 @@
 var Meetup = require("../models/meetup");
 var Comment = require("../models/comment");
-
+var Feed = require("../models/feed");
 // all the middleare goes here
 var middlewareObj = {};
 
 middlewareObj.checkFeedOwnership = function(req, res, next) {
  if(req.isAuthenticated()){
-        Meetup.findById(req.params.id, function(err, foundfeed){
+        Feed.findById(req.params.id, function(err, foundfeed){
            if(err){
                req.flash("error", "Campground not found");
                res.redirect("back");
            }  else {
                // does user own the campground?
+            //    console.log(foundfeed)
             if(foundfeed.author.id.equals(req.user._id)) {
                 next();
             } else {

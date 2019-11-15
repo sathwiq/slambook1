@@ -11,6 +11,7 @@ var express     = require("express"),
     var io = require('socket.io')(http);
 //requiring routes
 var commentRoutes    = require("./routes/comments"),
+    commentfRoutes    = require("./routes/commentsf"),
     feedRoutes = require("./routes/feeds"),
     meetupRoutes = require("./routes/meetups"),
     indexRoutes      = require("./routes/index"),
@@ -52,8 +53,8 @@ app.use(function(req, res, next){
 
 app.use("/", indexRoutes);
 app.use("/meetups", meetupRoutes);
-// app.use("/feeds",feedRoutes);
-// app.use("/feeds/:id/comments", feedRoutes);
+app.use("/feeds",feedRoutes);
+app.use("/feeds/:id/commentsf", commentfRoutes);
 app.use("/meetups/:id/comments", commentRoutes);
 app.use("/messages", messagesRoutes);
 io.on('connection', () =>{

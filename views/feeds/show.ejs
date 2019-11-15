@@ -2,21 +2,19 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <p class="lead">YelpCamp</p>
             
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
                 <img class="img-responsive" src="<%= feed.image %>">
                 <div class="caption-full">
-                    <!-- <h4 class="pull-right">$9.00/night</h4> -->
                     <h4><a><%=feed.name%></a></h4>
                     <p><%= feed.description %></p>
                     <p>
                         <em>Submitted By <%= feed.author.username %></em>
                     </p>
                     <% if(currentUser && feed.author.id.equals(currentUser._id)){ %>
-                        <a class="btn btn-xs btn-warning" href="/campgrounds/<%= feed._id %>/edit">Edit</a>
+                        <a class="btn btn-xs btn-warning" href="/feeds/<%= feed._id %>/edit">Edit</a>
                         <form id="delete-form" action="/feeds/<%= feed._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
@@ -25,7 +23,7 @@
             </div>
             <div class="well">
                 <div class="text-right">
-                    <a class="btn btn-success" href="/feeds/<%= feed._id %>/comments/new">Add New Comment</a>
+                    <a class="btn btn-success" href="/feeds/<%= feed._id %>/commentsf/new">Add New Comment</a>
                 </div>
                 <hr>
                 <% feed.comments.forEach(function(comment){ %>
@@ -38,8 +36,8 @@
                             </p>
                         <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
                             <a class="btn btn-xs btn-warning" 
-                               href="/feeds/<%=feed._id %>/comments/<%=comment._id %>/edit">Edit</a>
-                            <form id="delete-form" action="/feeds/<%=feed._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                               href="/feeds/<%=feed._id %>/commentsf/<%=comment._id %>/edit">Edit</a>
+                            <form id="delete-form" action="/feeds/<%=feed._id %>/commentsf/<%=comment._id %>?_method=DELETE" method="POST">
                                 <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                             </form>
                         <% } %>
